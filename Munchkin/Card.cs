@@ -18,14 +18,14 @@ namespace Munchkin
             Description = description;
         }
 
-        // Alla kort kan visa sig själva (ASCII)
+        // Displays ASCII version of card
         public virtual void Display()
         {
             Console.WriteLine("+----------------------+");
             Console.WriteLine($"| {Name.PadRight(20)} |");
             Console.WriteLine("|----------------------|");
             Console.WriteLine($"| {Description.PadRight(20)} |");
-            Console.WriteLine("+----------------------+");
+            Console.WriteLine("+----------------------+\n");
         }
     }
 }

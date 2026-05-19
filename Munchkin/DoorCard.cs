@@ -6,30 +6,44 @@ using System.Threading.Tasks;
 
 namespace Munchkin
 {
+    // Base class for all Door Cards
     abstract class DoorCard : Card
     {
-        public DoorCard(string name, string desc) : base(name, desc) { }
+        public DoorCard(string name, string desc)
+            : base(name, desc)
+        {
+
+        }
     }
 
-
-    class Monster : DoorCard
+    // Monster cards 
+    class MonsterCard : DoorCard
     {
-        public int Strength { get; set; }
+        // Monster stored inside card
+        public Monster Enemy { get; set; }
 
-        public Monster(string name, int strength) : base(name, "Monster")
+        public MonsterCard(Monster enemy)
+            : base(enemy.Name, "Monster")
         {
-            Strength = strength;
+            Enemy = enemy;
         }
 
+        // Displays monster card
         public override void Display()
         {
             base.Display();
-            Console.WriteLine($" Power: {Strength}");
+
+            Console.WriteLine("=== MONSTER INFO ===");
+            Console.WriteLine($"Name: {Enemy.Name}");
+            Console.WriteLine($"Level: {Enemy.Level}");
+            Console.WriteLine($"Reward Levels: {Enemy.RewardLevels}\n");
         }
     }
 
+    // Curse cards
     class Curse : DoorCard
     {
+        // positive or negative effect
         public int EffectValue { get; set; }
 
         public Curse(string name, int value)
@@ -37,10 +51,20 @@ namespace Munchkin
         {
             EffectValue = value;
         }
+
+        // Displays curse
+        public override void Display()
+        {
+            base.Display();
+
+            Console.WriteLine($"Curse Value: {EffectValue}");
+        }
     }
 
+    // Race cards
     class RaceCard : DoorCard
     {
+        // Stores race type
         public string RaceType { get; set; }
 
         public RaceCard(string name, string raceType)
@@ -48,10 +72,20 @@ namespace Munchkin
         {
             RaceType = raceType;
         }
+
+        // Displays race
+        public override void Display()
+        {
+            base.Display();
+
+            Console.WriteLine($"Race: {RaceType}");
+        }
     }
 
+    // Class cards
     class ClassCard : DoorCard
     {
+        // Stores class types
         public string ClassType { get; set; }
 
         public ClassCard(string name, string classType)
@@ -59,7 +93,14 @@ namespace Munchkin
         {
             ClassType = classType;
         }
-    }
 
+        // Displays class
+        public override void Display()
+        {
+            base.Display();
+
+            Console.WriteLine($"Class: {ClassType}");
+        }
+    }
 }
 
