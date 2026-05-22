@@ -12,9 +12,15 @@ namespace Munchkin
         // Internal list of cards 
         private List<T> cards;
 
+        private List<T> discardPile;
+
+        private Random random = new Random();
+
         public Deck()
         {
             cards = new List<T>();
+
+            discardPile = new List<T>();
         }
 
         // Adds card to deck
@@ -26,10 +32,41 @@ namespace Munchkin
         // Draws a card from the top of the deck
         public T Draw()
         {
+            if (cards.Count == 0)
+            {
+                Reshuffle();
+            }
+
             T card = cards[0];
+
             cards.RemoveAt(0);
+
             return card;
         }
+
+        // Add to discard pile
+        public void Discard(T card)
+        {
+            discardPile.Add(card);
+        }
+
+        // Reshuffle discard pile
+        private void Reshuffle()
+        {
+            if (discardPile.Count == 0)
+            {
+                return;
+            }
+
+            Console.WriteLine("\nDeck empty! Reshuffling discard pile...\n");
+
+            cards.AddRange(discardPile);
+
+            discardPile.Clear();
+
+            Shuffle();
+        }
+
 
         // Shuffles deck
         public void Shuffle()

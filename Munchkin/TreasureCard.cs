@@ -12,22 +12,4 @@ namespace Munchkin
     {
         public TreasureCard(string name, string desc) : base(name, desc) { }
     }
-
-
-
-
-   
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
