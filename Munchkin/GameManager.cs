@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -12,6 +13,7 @@ namespace Munchkin
     {
         private Player player;
 
+        // Decks used during the game
         private Deck<DoorCard> doorDeck;
         private Deck<TreasureCard> treasureDeck;
 
@@ -22,6 +24,7 @@ namespace Munchkin
             doorDeck = new Deck<DoorCard>();
             treasureDeck = new Deck<TreasureCard>();
 
+            // Fill and shuffle the decks
             FixDeck();
         }
 
@@ -60,13 +63,17 @@ namespace Munchkin
             treasureDeck.Shuffle();
         }
 
-        public void StartGame()
+        public void StartGame() // Starts the game
         {
+            // Timer used as the player's score
+            Stopwatch stopwatch = new Stopwatch(); 
+            stopwatch.Start(); 
             Console.WriteLine("=== MUNCHKIN GAME ===\n");
 
             DrawStartingCards();
 
             bool running = true;
+            
 
             while (running)
             {
@@ -100,6 +107,7 @@ namespace Munchkin
                         break;
                 }
 
+                // Wait for player before starting next turn
                 Console.WriteLine("Press spacebar to continue...");
                 while (true)
                 {
@@ -113,15 +121,27 @@ namespace Munchkin
 
                 Console.Clear();
 
-                if (player.Level >= 10)
+                // Win condition
+                if (player.Level >= 10)  
                 {
                     Console.WriteLine("You won the game");
+
+                    // Stops the timer and print your time/score
+                    stopwatch.Stop();
+
+                    Console.WriteLine($"Time: {stopwatch.Elapsed:mm\\:ss\\.ff}");
                     running = false;
                 }
             }
         }
 
-        private void DrawStartingCards()
+
+        /*
+         I want to make it more gamne like so you draw door cards too but thats a work in progress 
+         */
+
+        // Gives the player two starting treasure cards
+        private void DrawStartingCards() 
         {
             Console.WriteLine("Drawing starting cards...");
 
@@ -135,7 +155,8 @@ namespace Munchkin
             }
         }
 
-        private void OpenDoor()
+        // Draws a doorcard and plays it
+        private void OpenDoor() 
         {
             DoorCard card = doorDeck.Draw();
 
@@ -148,7 +169,8 @@ namespace Munchkin
             {
                 Console.WriteLine("Either chose to fight or run away!");
                 Console.WriteLine("1: Fight\n2: Run away (33% success rate)");
-                if (Console.ReadLine() == "1")
+                string input = Console.ReadLine() ?? ""; 
+                if (input == "1")
                 {
                     bool victory = BattleSystem.Fight(player, monsterCard.Enemy);
 
@@ -158,7 +180,7 @@ namespace Munchkin
                         GiveTreasure();
                     }
                 }
-                else if (Console.ReadLine() == "2")
+                else if (input == "2")  // Makes the running away event
                 {
                     Random rand = new Random();
                     if (rand.Next(6) > 3)
@@ -228,9 +250,7 @@ namespace Munchkin
             treasureDeck.Discard(card);
         }
 
-        /// <summary>
-        /// Method to equip an item from your hand
-        /// </summary>
+        // Allows the player to equip an item from their hand
         private void EquipItemFromHand()
         {
             List<Item> itemsInHand = new List<Item>();
@@ -243,7 +263,8 @@ namespace Munchkin
                 }
             }
 
-            if (itemsInHand.Count == 0)
+            // Incase you dont have anything in your hand
+            if (itemsInHand.Count == 0) 
             {
                 Console.WriteLine("You have no items to equip.");
 
@@ -280,9 +301,7 @@ namespace Munchkin
             }
         }
 
-        /// <summary>
-        /// Method to show your current items in your hand
-        /// </summary>
+        // Shows all the players cards
         private void ShowHand()
         {
             Console.WriteLine("\n=== HAND ===");

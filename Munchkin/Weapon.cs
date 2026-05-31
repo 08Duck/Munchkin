@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace Munchkin
 {
     // Weapon is a type of Item
+    // Inherits from Item class
     class Weapon : Item
     {
         // Weapon always has the description "Weapon"

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Munchkin
 {
+    // Inherits from Item class
     class Helmet : Item
     {
         public Helmet(string name, int bonus)
